@@ -8,47 +8,37 @@ public class PriceCaculator {
     private List<BigDecimal> discounts;
     private BigDecimal tax;
 
-    private BigDecimal subTotal;
-    private BigDecimal taxTotal;
-    private BigDecimal grandTotal;
-
     public PriceCaculator(List<OrderLineItem> orderLineItemList, List<BigDecimal> discounts, BigDecimal tax) {
         this.orderLineItemList = orderLineItemList;
         this.discounts = discounts;
         this.tax = tax;
-
-        subTotal = new BigDecimal(0);
     }
 
     public BigDecimal compute() {
-        totalUpLineItems();
+        BigDecimal total=new BigDecimal(0);
+        total=totalUpLineItems(total);
+        total=subtractDiscounts(total);
+        total=addTax(total);
 
-        subtractDiscounts();
-
-        calculateTax();
-
-        calculateGrandTotal();
-
-        return grandTotal;
+        return total;
     }
 
-    private void totalUpLineItems() {
+    private BigDecimal totalUpLineItems(BigDecimal total) {
         for (OrderLineItem lineItem : orderLineItemList) {
-            subTotal = subTotal.add(lineItem.getPrice());
+            total=total.add(lineItem.getPrice());
         }
+        return total;
     }
 
-    private void subtractDiscounts() {
+    private BigDecimal subtractDiscounts(BigDecimal total) {
         for (BigDecimal discount : discounts) {
-            subTotal = subTotal.subtract(discount);
+            total=total.subtract(discount);
         }
+        return total;
     }
 
-    private void calculateTax() {
-        taxTotal = subTotal.multiply(tax);
-    }
-
-    private void calculateGrandTotal() {
-        grandTotal = subTotal.add(taxTotal);
+    private BigDecimal addTax(BigDecimal total) {
+        total=total.add(total.multiply(tax));
+        return total;
     }
 }
