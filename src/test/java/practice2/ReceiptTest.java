@@ -25,7 +25,7 @@ public class ReceiptTest {
                 new OrderItem(656, 3));
 
         //When
-        double grandTotal = receipt.CalculateGrandTotal(products, productCounts);
+        double grandTotal = receipt.calculateGrandTotal(products, productCounts);
         double expectedTotal = 524.7;
 
         //Then

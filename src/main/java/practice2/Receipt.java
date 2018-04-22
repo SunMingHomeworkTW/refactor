@@ -12,7 +12,7 @@ public class Receipt {
 
     private BigDecimal tax;
 
-    public double CalculateGrandTotal(List<Product> products, List<OrderItem> items) {
+    public double calculateGrandTotal(List<Product> products, List<OrderItem> items) {
         BigDecimal subTotal = calculateSubtotal(products, items);
 
         BigDecimal taxTotal=getTaxTotal(subTotal);
@@ -36,14 +36,12 @@ public class Receipt {
     }
 
     private OrderItem findOrderItemByProduct(List<OrderItem> items, Product product) {
-        OrderItem curItem = null;
         for (OrderItem item : items) {
             if (item.getCode() == product.getCode()) {
-                curItem = item;
-                break;
+                return item;
             }
         }
-        return curItem;
+        return null;
     }
 
     private BigDecimal getItemTotal(Product product, OrderItem item) {
